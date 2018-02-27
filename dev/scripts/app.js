@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Threads from './threads.js'
 
-// Initialize Firebase
 const config = {
   apiKey: "AIzaSyBbnGgDyifjDEq-vdh3OzIom5siYX5LeOw",
   authDomain: "plot-threads.firebaseapp.com",
@@ -11,6 +10,7 @@ const config = {
   storageBucket: "",
   messagingSenderId: "729926240238"
 };
+
 firebase.initializeApp(config);
 
 class App extends React.Component {
@@ -94,8 +94,6 @@ class App extends React.Component {
   }
 
   signIn() {
-
-    console.log(`signing in`);
     const provider = new firebase.auth.GoogleAuthProvider();
 
     provider.setCustomParameters({
