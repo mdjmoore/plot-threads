@@ -114,8 +114,9 @@ aside {
     right:0;
     left:0;
     z-index: 1;
-    padding:20px;
+    padding:60px 20px 0px 20px;
     height:200px;
+    transition: all 0.5s ease;
     border-bottom:4px solid $dark-cyan;
     font-size: 1.6rem;
     form {
@@ -142,6 +143,7 @@ aside {
     padding:40px;
     border-bottom:4px solid $dark-cyan;
     font-size: 1.6rem;
+    transition: all 0.5s ease;
     form {
         display:flex;
         flex-direction: row;
@@ -156,11 +158,12 @@ aside {
 }
 
 .thread-container {
-    width:250px;
+    flex: 1 0 200px;
     margin:20px;
     padding:10px;
-    background: $main-grey;
+    background: rgba(207, 216, 220,0.5);
     border-bottom: 4px solid $dark-cyan;
+    box-shadow: 3px 2px 3px rgba(0,0,0,0.1);
     overflow:scroll;
     h4, p {
         font-size: 1.6rem;

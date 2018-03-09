@@ -86,10 +86,18 @@ class App extends React.Component {
     e.preventDefault();
     const password = this.createPassword.value;
     const confirm = this.confirmPassword.value;
+    const email = this.createEmail.value;
     if(password === confirm) {
-
+        firebase.auth()
+          .createUserWithEmailAndPassword(email,password)
+          .then((res) => {
+            this.showCreate(e);
+          })
+          .catch((err) => {
+            alert('Something went wrong. 🤔 Please try again.')
+          })
     } else {
-      alter('Passwords must match')
+      alert('Passwords must match')
     };
   }
 
