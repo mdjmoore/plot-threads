@@ -87,7 +87,14 @@ class App extends React.Component {
     const password = this.createPassword.value;
     const confirm = this.confirmPassword.value;
     if(password === confirm) {
-
+      firebase.auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+        this.showCreate(e);
+      })
+      .catch((err) => {
+        alert('Something went wrong. 🤔 Please try again.')
+      })
     } else {
       alter('Passwords must match')
     };
@@ -134,7 +141,8 @@ class App extends React.Component {
             <h1>Plot-threads</h1>
             <nav>
               <a href="" onClick={this.showAside} className="newThread"><i className="fas fa-pencil-alt"></i></a>
-              <a href="" className="create" onClick={this.showCreate}><i className="far fa-user"></i></a>
+              <a href="" className="create" onClick={this.showCreate}><i className="fas fa-user-plus"></i></a>
+              <a href="" className="login"><i className="fas fa-user"></i></a>
             </nav>
           </header>
           <div className="newAuthorForm" ref={ref => this.newAuthorForm = ref}>

@@ -38,20 +38,27 @@ header {
     nav {
         transform: skewY(2deg);
         a.newThread,
-        a.create {
+        a.create,
+        a.login {
             font-family: 'Open Sans Condensed', sans-serif;
             color:darken($dark-grey, 50);
             font-size: 30px;
             background-color:$main-cyan;
             border-radius: 50%;
-            padding:10px 12px;
+            padding:10px 15px;
             position: absolute;
-            right:100px;
-            bottom:-105px;
+            right:150px;
+            bottom:-110px;
         }
         a.create {
-            right:20px;
-            bottom:-100px;
+            padding:10px 12px;
+            right:80px;
+            bottom:-105px;
+        }
+        a.login {
+            right:10px;
+            bottom:-105px;
+            padding:10px 15px;
         }
     }
 }
@@ -114,7 +121,7 @@ aside {
     right:0;
     left:0;
     z-index: 1;
-    padding:20px;
+    padding:70px 20px 0px 20px;
     height:200px;
     border-bottom:4px solid $dark-cyan;
     font-size: 1.6rem;
@@ -156,11 +163,13 @@ aside {
 }
 
 .thread-container {
-    width:250px;
+    flex: 1 0 200px;
+    // width:250px;
     margin:20px;
     padding:10px;
-    background: $main-grey;
+    background: rgba(207, 216, 220, 0.5);
     border-bottom: 4px solid $dark-cyan;
+    box-shadow: 3px 2px 3px rgba(0,0,0,0.1);
     overflow:scroll;
     h4, p {
         font-size: 1.6rem;
