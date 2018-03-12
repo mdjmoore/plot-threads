@@ -26,6 +26,9 @@ class App extends React.Component {
     this.showCreate = this.showCreate.bind(this);
     this.createAuthor = this.createAuthor.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+    this.loginUser = this.loginUser.bind(this);
+    this.signInWithGoogle = this.signInWithGoogle.bind(this);
   }
 
   componentDidMount() {
@@ -51,12 +54,21 @@ class App extends React.Component {
 
   showAside (e) {
     e.preventDefault();
-    this.side.classList.toggle('pop-out')
+    if(firebase.auth().currentUser) {
+        this.side.classList.toggle('pop-out');
+    } else {
+      alert('Please login to add a new note.');
+    }
   }
 
   showCreate (e) {
     e.preventDefault();
-    this.newAuthorForm.classList.toggle('pop-out')
+    this.newAuthorForm.classList.toggle('pop-out');
+  }
+
+  showLogin (e) {
+    e.preventDefault();
+    this.loginForm.classList.toggle('pop-out');
   }
 
   addThread(e) {
@@ -86,6 +98,7 @@ class App extends React.Component {
     e.preventDefault();
     const password = this.createPassword.value;
     const confirm = this.confirmPassword.value;
+    const email = this.createEmail.value;
     if(password === confirm) {
       firebase.auth()
       .createUserWithEmailAndPassword(email, password)
@@ -98,9 +111,34 @@ class App extends React.Component {
     } else {
       alter('Passwords must match')
     };
+
+    this.createEmail.value = '';
+    this.createPassword.value = '';
+
+    this.showCreate(e);
   }
 
-  signIn() {
+  loginUser(e) {
+    e.preventDefault();
+    const email = this.createEmail.value;
+    const password = this.createPassword.value;
+
+    firebase.auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((res) => {
+      this.setState({
+        loggedIn: true
+      })
+      // this.showLogin(e);
+    })
+    .catch((err) => {
+      alert('Something went wrong. 🤔 Please try again.');
+    })
+
+    
+  }
+
+  signInWithGoogle() {
 
     console.log(`signing in`);
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -111,7 +149,8 @@ class App extends React.Component {
 
     firebase.auth().signInWithPopup(provider)
       .then((user) => {
-      });
+        this.loginForm.classList.toggle('pop-out');
+      })
   }
 
   signOut() {
@@ -119,7 +158,7 @@ class App extends React.Component {
     this.setState({
       loggedIn: false
     })
-    this.newAuthorForm.classList.toggle('pop-out');
+    this.loginForm.classList.toggle('pop-out');
   }
 
     showThreads() {
@@ -142,9 +181,28 @@ class App extends React.Component {
             <nav>
               <a href="" onClick={this.showAside} className="newThread"><i className="fas fa-pencil-alt"></i></a>
               <a href="" className="create" onClick={this.showCreate}><i className="fas fa-user-plus"></i></a>
-              <a href="" className="login"><i className="fas fa-user"></i></a>
+              <a href="" className="login" onClick={this.showLogin}><i className="fas fa-user"></i></a>
             </nav>
           </header>
+
+          <div className="loginForm" ref={ref => this.loginForm = ref}>
+            <form action="" onSubmit={this.loginUser}>
+              
+              <label htmlFor="email">Email</label>
+              <input type="text" name="email" placeholder="email" ref={ref => this.createEmail = ref} />
+            
+            
+              <label htmlFor="password">Password</label>
+              <input type="password" name="password" placeholder="password" ref={ref => this.createPassword = ref} />
+            
+              <p>Or sign in with <button onClick={this.signInWithGoogle}>Google</button></p>
+              
+              <input value="Login" className="buttonExtend" type="submit" />
+
+              <button onClick={this.signOut}>Sign Out</button>
+            </form>
+          </div>
+
           <div className="newAuthorForm" ref={ref => this.newAuthorForm = ref}>
             <form action="" onSubmit={this.createAuthor}>
               
@@ -158,9 +216,7 @@ class App extends React.Component {
                 <input type="password" name="confirmPassword" placeholder="confirm password" ref={ref => this.confirmPassword = ref} />
         
                 <input type="submit" className="buttonExtend" value="Create" />
-                <p>Or sign in with <button onClick={this.signIn}>Google</button></p>
 
-                <button onClick={this.signOut}>Sign Out</button>
             </form>
           </div>
 
