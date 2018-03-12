@@ -109,19 +109,14 @@ class App extends React.Component {
         alert('Something went wrong. 🤔 Please try again.')
       })
     } else {
-      alter('Passwords must match')
+      alert('Passwords must match')
     };
-
-    this.createEmail.value = '';
-    this.createPassword.value = '';
-
-    this.showCreate(e);
   }
 
   loginUser(e) {
     e.preventDefault();
-    const email = this.createEmail.value;
-    const password = this.createPassword.value;
+    const email = this.userEmail.value;
+    const password = this.userPassword.value;
 
     firebase.auth()
     .signInWithEmailAndPassword(email, password)
@@ -129,12 +124,13 @@ class App extends React.Component {
       this.setState({
         loggedIn: true
       })
-      // this.showLogin(e);
+      this.showLogin(e);
     })
     .catch((err) => {
-      alert('Something went wrong. 🤔 Please try again.');
+      // alert('Something went wrong. 🤔 Please try again.');
     })
-
+    this.userEmail.value = '';
+    this.userPassword - '';
     
   }
 
@@ -189,11 +185,11 @@ class App extends React.Component {
             <form action="" onSubmit={this.loginUser}>
               
               <label htmlFor="email">Email</label>
-              <input type="text" name="email" placeholder="email" ref={ref => this.createEmail = ref} />
+              <input type="text" name="email" placeholder="email" ref={ref => this.userEmail = ref} />
             
             
               <label htmlFor="password">Password</label>
-              <input type="password" name="password" placeholder="password" ref={ref => this.createPassword = ref} />
+              <input type="password" name="password" placeholder="password" ref={ref => this.userPassword = ref} />
             
               <p>Or sign in with <button onClick={this.signInWithGoogle}>Google</button></p>
               
